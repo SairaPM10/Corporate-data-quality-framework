@@ -1,126 +1,113 @@
-# Corporate Data Quality & Reconciliation Framework
+**# Corporate Data Quality & Reconciliation Framework
 
-## Project Overview
+## What this project does
 
-This project is a **corporate-style data quality and reconciliation framework** built using **Python, SQL, and SQLite**. It simulates how real organisations validate and monitor data as it moves between systems.
+This project is a small but realistic system that checks whether data stays correct when it moves from one system to another.
 
-In many companies, transactional data is created in one system (often called the **source system**) and then copied into another system for reporting or analytics (the **target system**). During this transfer, data issues frequently occur — such as missing records, duplicate records, or mismatched values.  
-This project demonstrates how such issues can be **detected, tracked, and governed** in a structured and repeatable way.
+In many companies, transaction data is created in a **source system** and then copied into a **target system** for reporting. During this transfer, problems often appear like the missing records, duplicates, or mismatched values.
 
----
-
-## Step 1: Input Data (Source vs Target)
-
-The project starts with two CSV files:
-
-- **`source_transactions.csv`** → represents the original system where transactions are created  
-- **`target_transactions.csv`** → represents a downstream reporting system  
-
-Both datasets contain realistic transactional fields such as:
-- transaction ID  
-- account ID  
-- amount  
-- currency  
-- transaction type  
-- transaction date  
-- status (e.g. `BOOKED`, `CANCELLED`)  
-
-These CSV files act as **raw incoming business data**, similar to files received daily in corporate environments.
+I built this project to simulate how organisations automatically detect these issues and track data quality over time using Python and SQL.
 
 ---
 
-## Step 2: Load Data into a Database
+## How the system works
 
-Instead of analysing CSV files directly, the data is loaded into a **SQLite database** (`corporate.db`).  
-SQLite is used as a lightweight relational database to replicate how systems like **PostgreSQL or MySQL** are used in production.
+### 1. Input data (Source vs Target)
+![Project folder structure](screenshots/project_structure.png)
 
-Two database tables are created:
+The project starts with two datasets:
+
+- `source_transactions.csv` – represents the original system
+- `target_transactions.csv` – represents the reporting system
+
+Each dataset contains realistic transaction fields such as ID, account, amount, currency, type, date, and status.
+
+These files simulate the kind of raw business data companies process every day.
+
+
+---
+
+### 2. Loading data into a database
+
+Instead of analysing CSV files directly, the data is loaded into a SQLite database (`corporate.db`).
+
+This creates two tables:
 
 - `source_transactions`
 - `target_transactions`
 
-From this point onward:
-- **SQL** becomes the primary tool for validation and reconciliation  
-- **Python** is used only to orchestrate execution  
+From this point on, **SQL handles validation logic**, and **Python automates execution**.
 
-This mirrors real-world data pipelines.
+This mirrors how real data pipelines are structured.
 
----
-
-## Step 3: Define Data Quality Rules (Rule Catalogue)
-
-A dedicated rules table called **`data_quality_rules`** is created to store *what checks should exist*, instead of hardcoding logic directly in scripts.
-
-Each rule includes:
-- a rule ID  
-- a rule name  
-- a description of the business logic  
-- a severity level (`HIGH` / `MEDIUM`)  
-
-Example rules include:
-- Transaction IDs must be unique in the target system  
-- All non-cancelled source transactions must appear in the target  
-- Transaction amounts must match between source and target  
-
-This approach reflects **data governance best practices**, where rules are defined separately from execution logic.
 
 ---
 
-## Step 4: Execute Controls (SQL-based Reconciliation)
+### 3. Defining data quality rules
 
-A control execution script runs **SQL queries** to evaluate each rule.  
-These queries make use of:
+I created a rule catalogue stored in a table called `data_quality_rules`.
 
-- joins (`INNER JOIN`, `LEFT JOIN`)  
-- aggregations (`GROUP BY`, `HAVING`)  
-- mismatch comparisons  
+Each rule defines a business check, for example:
 
-The framework checks for:
-- duplicate transactions in the target system  
-- missing transactions in the target  
-- extra transactions not present in the source  
-- amount mismatches between systems  
-- invalid reporting of cancelled transactions  
+- Transaction IDs must be unique
+- Source transactions must appear in the target
+- Amounts must match between systems
+
+Each rule also has a severity level to show how serious a failure is.
+
+This separates **business rules from code**, which is a common data governance practice.
 
 ---
 
-## Step 5: Store Results with History
+### 4. Running automated checks
 
-Each time the controls are executed, the results are written to a separate table called **`data_quality_results`**.
+A Python script runs SQL queries to evaluate these rules.
 
-For every rule execution, the framework stores:
-- the rule ID  
-- the number of records that failed  
-- the timestamp of execution  
+The system checks for:
 
-This creates a **historical audit trail**, allowing users to:
-- analyse trends over time  
-- monitor recurring data quality issues  
-- demonstrate data quality and control effectiveness  
+- duplicates
+- missing transactions
+- extra records
+- mismatched amounts
+- invalid cancelled records
+
+The SQL uses joins and aggregations to compare both systems.
+
+![Project folder structure](screenshots/run_controls_output.png)
+---
+
+### 5. Tracking results over time
+
+Every time the checks run, results are saved in a table called `data_quality_results`.
+
+This stores:
+
+- which rule ran
+- how many records failed
+- when the check was executed
+
+This creates a history of data quality performance, similar to monitoring systems used in real organisations.
+
+![Project folder structure](screenshots/result_history.png)
 
 ---
 
-## Step 6: Separation of Responsibilities
-
-The project intentionally separates responsibilities:
-
-- **Python** → automation, orchestration, repeatable execution  
-- **SQL** → reconciliation logic and validation  
-- **Database** → storage of data, rules, and historical results  
-
-This separation mirrors real corporate data pipelines and improves **maintainability and scalability**.
-
----
-
-## Why This Project Is Valuable
+## Why this project matters
 
 This project demonstrates practical skills in:
 
-- SQL joins and reconciliation logic  
-- Python-driven automation  
-- Data quality governance  
-- Rule-based system design  
-- Auditability and historical tracking  
+- SQL joins and reconciliation logic
+- Python automation
+- rule-based system design
+- data quality governance
+- audit and monitoring concepts
 
-It reflects how data quality checks are implemented in **financial services**, **analytics teams**, and **enterprise data platforms**.
-<!-- README updated -->
+It reflects how companies monitor data integrity in analytics and financial systems.
+
+---
+
+## Technology used
+
+- Python
+- SQL
+- SQLite**
