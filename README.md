@@ -111,4 +111,4 @@ It reflects how companies monitor data integrity in analytics and financial syst
 
 - Python
 - SQL
-- SQLite**
+- SQLite
