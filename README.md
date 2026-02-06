@@ -1,4 +1,4 @@
-**# Corporate Data Quality & Reconciliation Framework
+# Corporate Data Quality & Reconciliation Framework
 
 ## What this project does
 
