@@ -13,7 +13,7 @@ I built this project to simulate how organisations automatically detect these is
 ## How the system works
 
 ### 1. Input data (Source vs Target)
-![Project folder structure](screenshots/project_structure.png)
+![Project folder structure](screenshots/project_structure.PNG)
 
 The project starts with two datasets:
 
@@ -73,7 +73,7 @@ The system checks for:
 
 The SQL uses joins and aggregations to compare both systems.
 
-![Project folder structure](screenshots/run_controls_output.png)
+![Project folder structure](screenshots/run_controls_output.PNG)
 ---
 
 ### 5. Tracking results over time
@@ -88,7 +88,7 @@ This stores:
 
 This creates a history of data quality performance, similar to monitoring systems used in real organisations.
 
-![Project folder structure](screenshots/result_history.png)
+![Project folder structure](screenshots/result_history.PNG)
 
 ---
 
